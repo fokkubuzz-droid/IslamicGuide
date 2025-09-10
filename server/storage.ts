@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type PrayerTimes, type InsertPrayerTimes, type QuranVerse, type IslamicEvent } from "@shared/schema";
+import { type User, type InsertUser, type PrayerTimes, type InsertPrayerTimes, type QuranVerse, type IslamicEvent, type IslamicName, type InsertIslamicName } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -15,6 +15,10 @@ export interface IStorage {
   searchQuranVerses(query: string): Promise<QuranVerse[]>;
   
   getIslamicEvents(): Promise<IslamicEvent[]>;
+  
+  getIslamicNames(gender?: string, category?: string): Promise<IslamicName[]>;
+  searchIslamicNames(query: string, gender?: string): Promise<IslamicName[]>;
+  getIslamicNameById(id: string): Promise<IslamicName | undefined>;
 }
 
 export class MemStorage implements IStorage {
@@ -22,12 +26,14 @@ export class MemStorage implements IStorage {
   private prayerTimes: Map<string, PrayerTimes>;
   private quranVerses: Map<string, QuranVerse>;
   private islamicEvents: Map<string, IslamicEvent>;
+  private islamicNames: Map<string, IslamicName>;
 
   constructor() {
     this.users = new Map();
     this.prayerTimes = new Map();
     this.quranVerses = new Map();
     this.islamicEvents = new Map();
+    this.islamicNames = new Map();
     this.initializeData();
   }
 
@@ -80,6 +86,24 @@ export class MemStorage implements IStorage {
 
     events.forEach(event => {
       this.islamicEvents.set(event.id, event);
+    });
+
+    // Initialize Islamic names
+    const names = [
+      { id: randomUUID(), name: "Abdullah", meaning: "Servant of Allah", origin: "Arabic", gender: "boy", category: "Popular" },
+      { id: randomUUID(), name: "Ahmad", meaning: "Most praiseworthy", origin: "Arabic", gender: "boy", category: "Prophetic" },
+      { id: randomUUID(), name: "Ali", meaning: "High, elevated", origin: "Arabic", gender: "boy", category: "Popular" },
+      { id: randomUUID(), name: "Amir", meaning: "Prince, commander", origin: "Arabic", gender: "boy", category: "Leadership" },
+      { id: randomUUID(), name: "Aisha", meaning: "Living, prosperous", origin: "Arabic", gender: "girl", category: "Popular" },
+      { id: randomUUID(), name: "Amina", meaning: "Trustworthy", origin: "Arabic", gender: "girl", category: "Virtue" },
+      { id: randomUUID(), name: "Fatima", meaning: "Captivating", origin: "Arabic", gender: "girl", category: "Popular" },
+      { id: randomUUID(), name: "Khadija", meaning: "Premature child", origin: "Arabic", gender: "girl", category: "Historical" },
+      { id: randomUUID(), name: "Maryam", meaning: "Wished for child", origin: "Hebrew", gender: "girl", category: "Prophetic" },
+      { id: randomUUID(), name: "Zainab", meaning: "Fragrant flower", origin: "Arabic", gender: "girl", category: "Nature" }
+    ];
+
+    names.forEach(name => {
+      this.islamicNames.set(name.id, name);
     });
   }
 
@@ -160,6 +184,40 @@ export class MemStorage implements IStorage {
 
   async getIslamicEvents(): Promise<IslamicEvent[]> {
     return Array.from(this.islamicEvents.values());
+  }
+
+  async getIslamicNames(gender?: string, category?: string): Promise<IslamicName[]> {
+    let names = Array.from(this.islamicNames.values());
+    
+    if (gender && gender !== 'all') {
+      names = names.filter(name => name.gender === gender);
+    }
+    
+    if (category && category !== 'All') {
+      names = names.filter(name => name.category === category);
+    }
+    
+    return names;
+  }
+
+  async searchIslamicNames(query: string, gender?: string): Promise<IslamicName[]> {
+    const searchTerm = query.toLowerCase();
+    let names = Array.from(this.islamicNames.values()).filter(name =>
+      name.name.toLowerCase().includes(searchTerm) ||
+      name.meaning.toLowerCase().includes(searchTerm) ||
+      name.origin.toLowerCase().includes(searchTerm) ||
+      name.category?.toLowerCase().includes(searchTerm)
+    );
+
+    if (gender && gender !== 'all') {
+      names = names.filter(name => name.gender === gender);
+    }
+
+    return names;
+  }
+
+  async getIslamicNameById(id: string): Promise<IslamicName | undefined> {
+    return this.islamicNames.get(id);
   }
 }
 

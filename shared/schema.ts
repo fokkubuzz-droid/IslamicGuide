@@ -50,6 +50,15 @@ export const islamicEvents = pgTable("islamic_events", {
   isImportant: boolean("is_important").default(false),
 });
 
+export const islamicNames = pgTable("islamic_names", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  meaning: text("meaning").notNull(),
+  origin: text("origin").notNull(),
+  gender: text("gender").notNull(), // 'boy' | 'girl'
+  category: text("category"),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -71,6 +80,10 @@ export const insertIslamicEventSchema = createInsertSchema(islamicEvents).omit({
   id: true,
 });
 
+export const insertIslamicNameSchema = createInsertSchema(islamicNames).omit({
+  id: true,
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type PrayerTimes = typeof prayerTimes.$inferSelect;
@@ -79,3 +92,5 @@ export type QuranVerse = typeof quranVerses.$inferSelect;
 export type InsertQuranVerse = z.infer<typeof insertQuranVerseSchema>;
 export type IslamicEvent = typeof islamicEvents.$inferSelect;
 export type InsertIslamicEvent = z.infer<typeof insertIslamicEventSchema>;
+export type IslamicName = typeof islamicNames.$inferSelect;
+export type InsertIslamicName = z.infer<typeof insertIslamicNameSchema>;
