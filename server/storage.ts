@@ -1,5 +1,6 @@
 import { type User, type InsertUser, type PrayerTimes, type InsertPrayerTimes, type QuranVerse, type IslamicEvent, type IslamicName, type InsertIslamicName } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { islamicNames as namesData } from "../client/src/data/islamic-names";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -88,19 +89,12 @@ export class MemStorage implements IStorage {
       this.islamicEvents.set(event.id, event);
     });
 
-    // Initialize Islamic names
-    const names = [
-      { id: randomUUID(), name: "Abdullah", meaning: "Servant of Allah", origin: "Arabic", gender: "boy", category: "Popular" },
-      { id: randomUUID(), name: "Ahmad", meaning: "Most praiseworthy", origin: "Arabic", gender: "boy", category: "Prophetic" },
-      { id: randomUUID(), name: "Ali", meaning: "High, elevated", origin: "Arabic", gender: "boy", category: "Popular" },
-      { id: randomUUID(), name: "Amir", meaning: "Prince, commander", origin: "Arabic", gender: "boy", category: "Leadership" },
-      { id: randomUUID(), name: "Aisha", meaning: "Living, prosperous", origin: "Arabic", gender: "girl", category: "Popular" },
-      { id: randomUUID(), name: "Amina", meaning: "Trustworthy", origin: "Arabic", gender: "girl", category: "Virtue" },
-      { id: randomUUID(), name: "Fatima", meaning: "Captivating", origin: "Arabic", gender: "girl", category: "Popular" },
-      { id: randomUUID(), name: "Khadija", meaning: "Premature child", origin: "Arabic", gender: "girl", category: "Historical" },
-      { id: randomUUID(), name: "Maryam", meaning: "Wished for child", origin: "Hebrew", gender: "girl", category: "Prophetic" },
-      { id: randomUUID(), name: "Zainab", meaning: "Fragrant flower", origin: "Arabic", gender: "girl", category: "Nature" }
-    ];
+    // Initialize Islamic names with all 500 names
+    const names = namesData.map(nameData => ({
+      id: randomUUID(),
+      ...nameData,
+      category: nameData.category || null
+    }));
 
     names.forEach(name => {
       this.islamicNames.set(name.id, name);
