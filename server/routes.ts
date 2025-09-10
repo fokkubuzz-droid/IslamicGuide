@@ -158,6 +158,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Islamic names routes
+  app.get("/api/islamic-names", async (req, res) => {
+    try {
+      const { gender, category } = req.query;
+      const names = await storage.getIslamicNames(
+        gender as string, 
+        category as string
+      );
+      res.json(names);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get Islamic names" });
+    }
+  });
+
+  app.get("/api/islamic-names/search", async (req, res) => {
+    try {
+      const { q, gender } = req.query;
+      if (!q) {
+        return res.status(400).json({ message: "Search query is required" });
+      }
+      
+      const names = await storage.searchIslamicNames(q as string, gender as string);
+      res.json(names);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to search Islamic names" });
+    }
+  });
+
+  app.get("/api/islamic-names/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const name = await storage.getIslamicNameById(id);
+      
+      if (!name) {
+        return res.status(404).json({ message: "Name not found" });
+      }
+      
+      res.json(name);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get Islamic name" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
