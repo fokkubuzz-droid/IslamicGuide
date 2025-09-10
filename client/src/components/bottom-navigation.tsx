@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Home, Compass, BookOpen, Calendar, Settings } from "lucide-react";
+import { Home, Compass, BookOpen, Calendar, Settings, Baby } from "lucide-react";
 import { useLocation } from "wouter";
 
 interface BottomNavigationProps {
-  currentPage: "home" | "qibla" | "quran" | "calendar" | "settings";
+  currentPage: "home" | "qibla" | "quran" | "calendar" | "names" | "settings";
 }
 
 export default function BottomNavigation({ currentPage }: BottomNavigationProps) {
@@ -13,6 +13,7 @@ export default function BottomNavigation({ currentPage }: BottomNavigationProps)
     { id: "home", icon: Home, label: "Home", path: "/" },
     { id: "qibla", icon: Compass, label: "Qibla", path: "/qibla" },
     { id: "quran", icon: BookOpen, label: "Quran", path: "/quran" },
+    { id: "names", icon: Baby, label: "Names", path: "/names" },
     { id: "calendar", icon: Calendar, label: "Calendar", path: "/calendar" },
     { id: "settings", icon: Settings, label: "Settings", path: "/settings" },
   ];
