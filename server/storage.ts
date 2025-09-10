@@ -98,6 +98,10 @@ export class MemStorage implements IStorage {
     const user: User = { 
       ...insertUser, 
       id,
+      location: insertUser.location || null,
+      latitude: insertUser.latitude || null,
+      longitude: insertUser.longitude || null,
+      calculationMethod: insertUser.calculationMethod || "ISNA",
       dhikrCount: 0,
       favoriteVerses: [],
       createdAt: new Date()
@@ -124,7 +128,11 @@ export class MemStorage implements IStorage {
 
   async savePrayerTimes(insertPrayerTimes: InsertPrayerTimes): Promise<PrayerTimes> {
     const id = randomUUID();
-    const prayerTimes: PrayerTimes = { ...insertPrayerTimes, id };
+    const prayerTimes: PrayerTimes = { 
+      ...insertPrayerTimes, 
+      id,
+      userId: insertPrayerTimes.userId || null
+    };
     this.prayerTimes.set(id, prayerTimes);
     return prayerTimes;
   }

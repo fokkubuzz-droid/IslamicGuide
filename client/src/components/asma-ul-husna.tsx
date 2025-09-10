@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { asmaUlHusna } from "@/data/asma-ul-husna";
+import { asmaUlHusna } from "../data/asma-ul-husna";
 
 export default function AsmaUlHusna() {
   const [currentIndex, setCurrentIndex] = useState(0);
