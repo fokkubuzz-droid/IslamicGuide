@@ -52,7 +52,9 @@ export const islamicEvents = pgTable("islamic_events", {
 
 export const islamicNames = pgTable("islamic_names", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  name: text("name").notNull(),
+  name: text("name").notNull(), // English name
+  nameArabic: text("name_arabic").notNull(), // Arabic script
+  nameBengali: text("name_bengali").notNull(), // Bengali script
   meaning: text("meaning").notNull(),
   origin: text("origin").notNull(),
   gender: text("gender").notNull(), // 'boy' | 'girl'
