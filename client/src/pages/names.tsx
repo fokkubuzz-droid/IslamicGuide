@@ -14,7 +14,7 @@ export default function NamesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGender, setSelectedGender] = useState<"all" | "boy" | "girl">("all");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedLanguage, setSelectedLanguage] = useState<"english" | "arabic" | "bengali">("english");
+  const [selectedLanguage, setSelectedLanguage] = useState<"english" | "arabic" | "bengali">("bengali");
 
   const { data: allNames, isLoading } = useQuery<IslamicName[]>({
     queryKey: [`/api/islamic-names?gender=${selectedGender}&category=${encodeURIComponent(selectedCategory)}`],
