@@ -97,3 +97,16 @@ export type IslamicEvent = typeof islamicEvents.$inferSelect;
 export type InsertIslamicEvent = z.infer<typeof insertIslamicEventSchema>;
 export type IslamicName = typeof islamicNames.$inferSelect;
 export type InsertIslamicName = z.infer<typeof insertIslamicNameSchema>;
+
+// Raw interface for names before Bengali translation is applied
+export interface RawIslamicName {
+  id?: string;
+  name: string;
+  nameArabic: string;
+  nameBengali: string;
+  meaning: string;
+  meaningBengali?: string;
+  origin: string;
+  gender: "boy" | "girl" | "unisex";
+  category: string;
+}
