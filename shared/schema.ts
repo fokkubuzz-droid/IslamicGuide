@@ -56,6 +56,7 @@ export const islamicNames = pgTable("islamic_names", {
   nameArabic: text("name_arabic").notNull(), // Arabic script
   nameBengali: text("name_bengali").notNull(), // Bengali script
   meaning: text("meaning").notNull(),
+  meaningBengali: text("meaning_bengali").notNull(), // Bengali meaning
   origin: text("origin").notNull(),
   gender: text("gender").notNull(), // 'boy' | 'girl'
   category: text("category"),

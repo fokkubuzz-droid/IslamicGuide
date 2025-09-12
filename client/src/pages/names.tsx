@@ -211,6 +211,15 @@ function NameCard({ name, selectedLanguage, onShare }: NameCardProps) {
     }
   };
 
+  const getDisplayMeaning = () => {
+    switch (selectedLanguage) {
+      case "bengali":
+        return name.meaningBengali || name.meaning;
+      default:
+        return name.meaning;
+    }
+  };
+
   const getNameClass = () => {
     if (selectedLanguage === "arabic") {
       return "text-lg font-bold text-primary text-right";
@@ -261,7 +270,7 @@ function NameCard({ name, selectedLanguage, onShare }: NameCardProps) {
         
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">
-            <span className="font-medium">Meaning:</span> {name.meaning}
+            <span className="font-medium">Meaning:</span> {getDisplayMeaning()}
           </p>
           <p className="text-sm text-muted-foreground">
             <span className="font-medium">Origin:</span> {name.origin}

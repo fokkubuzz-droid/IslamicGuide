@@ -3,6 +3,7 @@ export interface IslamicName {
   nameArabic: string; // Arabic script
   nameBengali: string; // Bengali script
   meaning: string;
+  meaningBengali: string; // Bengali meaning
   origin: string;
   gender: 'boy' | 'girl';
   category?: string;
@@ -10,11 +11,11 @@ export interface IslamicName {
 
 export const islamicNames: IslamicName[] = [
   // Boys Names (250)
-  { name: "Abdullah", nameArabic: "عبد الله", nameBengali: "আব্দুল্লাহ", meaning: "Servant of Allah", origin: "Arabic", gender: "boy", category: "Popular" },
-  { name: "Abdul Rahman", nameArabic: "عبد الرحمن", nameBengali: "আব্দুর রহমান", meaning: "Servant of the Merciful", origin: "Arabic", gender: "boy", category: "Divine" },
-  { name: "Abdul Aziz", nameArabic: "عبد العزيز", nameBengali: "আব্দুল আজিজ", meaning: "Servant of the Mighty", origin: "Arabic", gender: "boy", category: "Divine" },
-  { name: "Abdul Malik", nameArabic: "عبد الملك", nameBengali: "আব্দুল মালিক", meaning: "Servant of the King", origin: "Arabic", gender: "boy", category: "Divine" },
-  { name: "Abdul Karim", nameArabic: "عبد الكريم", nameBengali: "আব্দুল করিম", meaning: "Servant of the Generous", origin: "Arabic", gender: "boy", category: "Divine" },
+  { name: "Abdullah", nameArabic: "عبد الله", nameBengali: "আব্দুল্লাহ", meaning: "Servant of Allah", meaningBengali: "আল্লাহর বান্দা", origin: "Arabic", gender: "boy", category: "Popular" },
+  { name: "Abdul Rahman", nameArabic: "عبد الرحمন", nameBengali: "আব্দুর রহমান", meaning: "Servant of the Merciful", meaningBengali: "পরম দয়ালুর বান্দা", origin: "Arabic", gender: "boy", category: "Divine" },
+  { name: "Abdul Aziz", nameArabic: "عبد العزيز", nameBengali: "আব্দুল আজিজ", meaning: "Servant of the Mighty", meaningBengali: "পরাক্রমশালীর বান্দা", origin: "Arabic", gender: "boy", category: "Divine" },
+  { name: "Abdul Malik", nameArabic: "عبد الملك", nameBengali: "আব্দুল মালিক", meaning: "Servant of the King", meaningBengali: "রাজার বান্দা", origin: "Arabic", gender: "boy", category: "Divine" },
+  { name: "Abdul Karim", nameArabic: "عبد الكريم", nameBengali: "আব্দুল করিম", meaning: "Servant of the Generous", meaningBengali: "দয়ালুর বান্দা", origin: "Arabic", gender: "boy", category: "Divine" },
   { name: "Abdul Latif", nameArabic: "عبد اللطيف", nameBengali: "আব্দুল লতিফ", meaning: "Servant of the Kind", origin: "Arabic", gender: "boy", category: "Divine" },
   { name: "Abdul Hakeem", nameArabic: "عبد الحكيم", nameBengali: "আব্দুল হাকিম", meaning: "Servant of the Wise", origin: "Arabic", gender: "boy", category: "Divine" },
   { name: "Abdul Ghani", nameArabic: "عبد الغني", nameBengali: "আব্দুল গনি", meaning: "Servant of the Rich", origin: "Arabic", gender: "boy", category: "Divine" },
