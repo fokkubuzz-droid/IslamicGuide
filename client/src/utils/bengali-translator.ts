@@ -82,17 +82,6 @@ export function translateWithContext(
   origin?: string,
   category?: string
 ): string {
-  // Debug logging for Abdullah
-  if (name === "Abdullah") {
-    console.log('translateWithContext debug for Abdullah:', {
-      input: { meaning, name, origin, category },
-      servantPatternsHasKey: servantPatterns.hasOwnProperty(meaning),
-      servantPatternsValue: servantPatterns[meaning],
-      bengaliGlossaryHasAllah: bengaliGlossary.hasOwnProperty('Allah'),
-      bengaliGlossaryAllahValue: bengaliGlossary['Allah']
-    });
-  }
-  
   // Special handling for names with known patterns
   if (name.startsWith('Abd') || name.startsWith('Abdul')) {
     // This is likely a "Servant of" name
@@ -106,14 +95,7 @@ export function translateWithContext(
   }
   
   // Use the main translation function
-  const result = translateToBengali(meaning, name, origin, category);
-  
-  // Debug result for Abdullah
-  if (name === "Abdullah") {
-    console.log('translateWithContext result for Abdullah:', result);
-  }
-  
-  return result;
+  return translateToBengali(meaning, name, origin, category);
 }
 
 /**
