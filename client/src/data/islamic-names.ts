@@ -1,6 +1,5 @@
 import { IslamicName, RawIslamicName } from "@shared/schema";
 import { translateWithContext } from "@/utils/bengali-translator";
-import { v4 as uuidv4 } from "uuid";
 
 // Raw data without Bengali meanings (will be auto-generated)
 const rawIslamicNames: RawIslamicName[] = [
@@ -163,8 +162,8 @@ const rawIslamicNames: RawIslamicName[] = [
 ];
 
 // Export the complete Islamic names with auto-generated Bengali meanings
-export const islamicNames: IslamicName[] = rawIslamicNames.map((rawName) => {
-  const id = rawName.id || uuidv4();
+export const islamicNames: IslamicName[] = rawIslamicNames.map((rawName, index) => {
+  const id = rawName.id || `name-${index + 1}`;
   const meaningBengali = rawName.meaningBengali || translateWithContext(
     rawName.meaning, 
     rawName.name, 

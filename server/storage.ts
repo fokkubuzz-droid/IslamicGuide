@@ -96,6 +96,7 @@ export class MemStorage implements IStorage {
       nameArabic: nameData.nameArabic,
       nameBengali: nameData.nameBengali,
       meaning: nameData.meaning,
+      meaningBengali: nameData.meaningBengali,
       origin: nameData.origin,
       gender: nameData.gender,
       category: nameData.category || null
