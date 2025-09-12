@@ -17,11 +17,11 @@ export default function NamesPage() {
   const [selectedLanguage, setSelectedLanguage] = useState<"english" | "arabic" | "bengali">("english");
 
   const { data: allNames, isLoading } = useQuery<IslamicName[]>({
-    queryKey: ["/api/islamic-names", { gender: selectedGender, category: selectedCategory }],
+    queryKey: [`/api/islamic-names?gender=${selectedGender}&category=${encodeURIComponent(selectedCategory)}`],
   });
 
   const { data: searchResults, refetch: searchNames } = useQuery<IslamicName[]>({
-    queryKey: ["/api/islamic-names/search", { q: searchQuery, gender: selectedGender }],
+    queryKey: [`/api/islamic-names/search?q=${encodeURIComponent(searchQuery)}&gender=${selectedGender}`],
     enabled: false,
   });
 
