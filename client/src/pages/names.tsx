@@ -7,13 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BottomNavigation from "@/components/bottom-navigation";
-import { Search, Heart, Share, Baby } from "lucide-react";
+import { Search, Heart, Share, Baby, Languages } from "lucide-react";
 import type { IslamicName } from "@shared/schema";
 
 export default function NamesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGender, setSelectedGender] = useState<"all" | "boy" | "girl">("all");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedLanguage, setSelectedLanguage] = useState<"english" | "arabic" | "bengali">("english");
 
   const { data: allNames, isLoading } = useQuery<IslamicName[]>({
     queryKey: ["/api/islamic-names", { gender: selectedGender, category: selectedCategory }],
@@ -100,6 +101,21 @@ export default function NamesPage() {
               </SelectContent>
             </Select>
           </div>
+
+          {/* Language Selector */}
+          <div className="flex items-center space-x-2">
+            <Languages className="h-4 w-4 text-muted-foreground" />
+            <Select value={selectedLanguage} onValueChange={(value: "english" | "arabic" | "bengali") => setSelectedLanguage(value)}>
+              <SelectTrigger data-testid="select-language" className="w-[150px]">
+                <SelectValue placeholder="Language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="english">English</SelectItem>
+                <SelectItem value="arabic">العربية</SelectItem>
+                <SelectItem value="bengali">বাংলা</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* Results Summary */}
@@ -134,7 +150,7 @@ export default function NamesPage() {
             <TabsContent value="boys" className="space-y-3 mt-4">
               {boyNames.length > 0 ? (
                 boyNames.map((name) => (
-                  <NameCard key={name.id} name={name} onShare={handleShare} />
+                  <NameCard key={name.id} name={name} selectedLanguage={selectedLanguage} onShare={handleShare} />
                 ))
               ) : (
                 <p className="text-center text-muted-foreground py-8">
@@ -146,7 +162,7 @@ export default function NamesPage() {
             <TabsContent value="girls" className="space-y-3 mt-4">
               {girlNames.length > 0 ? (
                 girlNames.map((name) => (
-                  <NameCard key={name.id} name={name} onShare={handleShare} />
+                  <NameCard key={name.id} name={name} selectedLanguage={selectedLanguage} onShare={handleShare} />
                 ))
               ) : (
                 <p className="text-center text-muted-foreground py-8">
@@ -159,7 +175,7 @@ export default function NamesPage() {
           <div className="space-y-3">
             {displayNames.length > 0 ? (
               displayNames.map((name) => (
-                <NameCard key={name.id} name={name} onShare={handleShare} />
+                <NameCard key={name.id} name={name} selectedLanguage={selectedLanguage} onShare={handleShare} />
               ))
             ) : (
               <p className="text-center text-muted-foreground py-8">
@@ -177,20 +193,44 @@ export default function NamesPage() {
 
 interface NameCardProps {
   name: IslamicName;
+  selectedLanguage: "english" | "arabic" | "bengali";
   onShare: (name: IslamicName) => void;
 }
 
-function NameCard({ name, onShare }: NameCardProps) {
+function NameCard({ name, selectedLanguage, onShare }: NameCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
+
+  const getDisplayName = () => {
+    switch (selectedLanguage) {
+      case "arabic":
+        return name.nameArabic;
+      case "bengali":
+        return name.nameBengali;
+      default:
+        return name.name;
+    }
+  };
+
+  const getNameClass = () => {
+    if (selectedLanguage === "arabic") {
+      return "text-lg font-bold text-primary text-right";
+    }
+    return "text-lg font-bold text-primary";
+  };
 
   return (
     <Card data-testid={`card-name-${name.name.toLowerCase().replace(/\s+/g, '-')}`}>
       <CardContent className="p-4">
         <div className="flex justify-between items-start mb-2">
           <div className="flex-1">
-            <h3 className="text-lg font-bold text-primary" data-testid={`text-name-${name.name.toLowerCase().replace(/\s+/g, '-')}`}>
-              {name.name}
+            <h3 className={getNameClass()} data-testid={`text-name-${name.name.toLowerCase().replace(/\s+/g, '-')}`}>
+              {getDisplayName()}
             </h3>
+            {selectedLanguage !== "english" && (
+              <p className="text-sm text-muted-foreground mt-1">
+                {name.name}
+              </p>
+            )}
             <Badge 
               variant={name.gender === 'boy' ? 'default' : 'secondary'} 
               className="mb-2"

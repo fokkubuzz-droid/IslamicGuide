@@ -92,7 +92,12 @@ export class MemStorage implements IStorage {
     // Initialize Islamic names with all 500 names
     const names = namesData.map(nameData => ({
       id: randomUUID(),
-      ...nameData,
+      name: nameData.name,
+      nameArabic: nameData.nameArabic,
+      nameBengali: nameData.nameBengali,
+      meaning: nameData.meaning,
+      origin: nameData.origin,
+      gender: nameData.gender,
       category: nameData.category || null
     }));
 
